@@ -1,0 +1,386 @@
+body {
+	display: flex;
+	margin: 0;
+	height: 100vh;
+	overflow: hidden;
+	flex-direction: column;
+  background: black;
+  font-family: 'Open Sans', sans-serif;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#content {
+	position: relative;
+	flex: 1;
+}
+
+.null-pointer {
+  pointer-events: none;
+}
+
+.flx-r {
+  display: flex;
+  flex-direction: row;
+}
+
+.flx-c {
+  display: flex;
+  flex-direction: column;
+}
+
+.jcc {
+  justify-content: center;
+}
+
+#controls {
+	height: 80px;
+	background: #222;
+	border-top: 1px dashed #444;
+	box-sizing: border-box;
+}
+
+#left-box {
+	margin: 5px 10px;
+	padding-right: 10px;
+	border-right: 1px dashed #444;
+}
+
+#time-out {
+	color: #eee;
+	text-align: center;
+	font-size: 70%;
+}
+
+.control-btn {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin: 5px;
+	background: rgba(255,255,255,0.1);
+	cursor: pointer;
+}
+
+.control-btn:hover {
+	background: rgba(255,255,255,0.15);
+}
+
+.control-btn.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+#pause-btn, body[data-mode="play"] #play-btn {
+  display: none;
+}
+
+body[data-mode="play"] #pause-btn {
+  display: block;
+}
+
+.control-btn svg {
+  width: 100%;
+  height: 100%;
+  fill: white;
+}
+
+#slider-area {
+	flex-grow: 1;
+	align-items: center;
+	margin: 0 10px;
+}
+
+#slider {
+  position: relative;
+	width: 100%;
+	height: 40px;
+	background: #333;
+  margin-top: 10px;
+}
+
+#slider-runner {
+	position: absolute;
+  width: 14px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  margin-left: -7px;
+}
+
+#slider-runner-bar {
+	position: absolute;
+	width: 2px;
+	height: 100%;
+	background: white;
+	top: 0;
+	left: 50%;
+	margin-left: -1px;
+  pointer-events: none;
+}
+
+#slider-runner-blob {
+	position: absolute;
+  width: 14px;
+  height: 14px;
+  background: white;
+  border-radius: 50%;
+  margin-top: -10px;
+  cursor: pointer;
+}
+  
+#duration-box {
+	align-items: center;
+	color: #ccc;
+	font-size: 80%;
+	margin: 5px;
+	padding-left: 15px;
+	border-left: 1px dashed #444;
+}
+
+.dur-item span {
+  font-size: 70%;
+}
+
+.dur-inp {
+	display: block;
+	border: none;
+	background: #444;
+	color: white;
+	font: inherit;
+	padding: 2px 3px;
+	width: 70px;
+	margin-right: 10px;
+  outline: none;
+}
+
+.dur-inp:focus {
+  outline: 1px solid #888;
+}
+
+#grid, #firework-area {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+body[data-mode="play"] #grid {
+  display: none;
+}
+
+pattern rect {
+	fill: #111;
+	stroke: #444;
+	stroke-width: 0.001;
+}
+
+#fw-box {
+	background: rgba(255,255,255,0.15);
+	position: absolute;
+	margin: 10px;
+	padding: 3px;
+	border-radius: 66px;
+}
+
+.fw-item {
+	position: relative;
+	float: left;
+	width: 50px;
+	height: 50px;
+	background: #666;
+	border-radius: 50%;
+	margin: 5px;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+  transition: margin 300ms, opacity 300ms;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.fw-item.active {
+  background: #1c94dd;
+  z-index: 1000;
+}
+
+.show-info-pill .fw-item:not(.active) {
+  opacity: 0;
+}
+
+.show-info-pill .fw-item + .fw-item {
+  margin-left: -55px;
+}
+
+.fw-item svg {
+  fill: white;
+  pointer-events: none;
+}
+
+.fw-item path {
+  stroke: white;
+  stroke-width: 0.5;
+  fill: none;
+}
+
+#color-circle-wrapper {
+  position: relative;
+  float: left;
+  width: 60px;
+  height: 60px;
+  margin-left: -60px;
+  opacity: 0;
+  transition: margin 300ms, opacity 300ms;
+}
+
+#color-selector {
+  width: 60px;
+  max-height: 60px;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: width 300ms, max-height 300ms, background-color 200ms;
+  transition-delay: 0ms, 0ms, 200ms;
+}
+
+.active #col-onclick {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.active #color-selector {
+	position: relative;
+	background: white;
+	width: 303px;
+	max-height: 500px;
+	transition-delay: 0ms, 0ms, 0ms;
+	box-shadow: 3px 3px 2px rgba(0,0,0,0.3);
+}
+
+.color-circle {
+  float: left;
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  background: #1c94dd;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: 2px solid white;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+#color-box {
+	width: 300px;
+	overflow: hidden;
+	margin-bottom: 3px;
+}
+
+#fw-info {
+  float: left;
+  line-height: 50px;
+  font-family: Trebuchet MS;
+  color: white;
+  white-space: nowrap;
+  margin: 5px 0;
+	max-width: 0;
+	overflow: hidden;
+  opacity: 0;
+  transition: max-width 300ms, margin 300ms, opacity 300ms;
+}
+
+.fw-info-item + .fw-info-item:before {
+	content: "/";
+	display: inline-block;
+	margin-left: 2px;
+	margin-right: 7px;
+	font-size: 150%;
+	vertical-align: middle;
+	color: #777;
+}
+
+.fw-info-item span {
+	font-weight: bold;
+	font-size: 110%;
+	vertical-align: top;
+	color: #1c94dd;
+}
+
+.show-info-pill #fw-info {
+  margin: 5px 15px 5px 10px;
+  max-width: 500px;
+  opacity: 1;
+}
+
+.show-info-pill #color-circle-wrapper {
+  margin-left: 0;
+  opacity: 1;
+}
+
+#grid > rect {
+  pointer-events: none;
+}
+
+#opposite {
+  fill: rgba(255,255,255,0.3);
+  stroke: none;
+	pointer-events: none;
+}
+
+#cursor {
+  fill: #444;
+  stroke: #888;
+	pointer-events: none;
+}
+
+.drawing #cursor, body[data-mode="drag"] #cursor {
+  display: none;
+}
+
+#adv-cursor {
+  display: none;
+}
+
+.radius {
+	stroke-width: 3;
+}
+
+.arc, .spinner-circle {
+	stroke-dasharray: 4 2;
+}
+
+.spinner-drag {
+	cursor: pointer;
+	pointer-events: auto;
+}
+
+.fw-icon-dot, .fw-icon-rect {
+  pointer-events: none;
+}
+
+.fw-icon-rect-bg.dotted {
+	stroke-dasharray: 3 1;
+}
+
+.fw-icon-rect-bg.dashed {
+	stroke-dasharray: 4 2;
+}
+
+.fw-icon-rect-bg, .fw-icon-dot-bg {
+	cursor: pointer;
+}
+
+body[data-mode="drag"] *, .fw-rect, .center-dot {
+	cursor: move;
+}
+
+body[data-mode="fw-set"] #fw-icons .fw-icon-rect, body[data-mode="fw-set"] #fw-icons .fw-icon-dot, body[data-mode="drag"] #fw-icons .fw-icon-rect, body[data-mode="drag"] #fw-icons .fw-icon-dot, body[data-mode="fw-set"] .fw-icon-dot-bg, body[data-mode="drag"] .fw-icon-dot-bg, body[data-mode="fw-set"] .fw-icon-rect-bg, body[data-mode="drag"] .fw-icon-rect-bg {
+	filter: url(#saturate);
+  opacity: 0.8;
+}
+
+body[data-mode="fw-set"] #adv-cursor, body[data-mode="drag"] #adv-cursor  {
+  display: block;
+}

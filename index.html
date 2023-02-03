@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>aleaplicativos</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+<body>
+  <div id="content">
+    <canvas id="firework-area"></canvas>
+    <svg id="grid" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="backgrid" x="0" y="0" width="1.5625%" height="3.0303%" patternContentUnits="objectBoundingBox">
+          <rect x="0" y="0" width="1.5625%" height="3.0303%"></rect>
+        </pattern>
+        <filter id="saturate">
+          <feColorMatrix in="SourceGraphic" type="saturate" values="0.4"/>
+        </filter>
+      </defs>
+      <rect fill="url(#backgrid)" width="100%" height="100%"></rect>
+      <line class="null-pointer" x1="50%" y1="0" x2="50%" y2="100%" stroke="#555"></line>
+      <circle id="cursor" r="4" cx="-100"></circle>
+      <g id="fw-icons"></g>
+      <g id="adv-cursor"></g>
+      <circle id="opposite" cx="-100" r="5"/>
+    </svg>
+    <div id="header">
+      <div id="fw-box" class="fw-box">
+        <div class="fw-item active">
+          <svg viewBox="0 0 10 10">
+            <circle cx="5" cy="5" r="0.5"/>
+            <path d="M4 4 l-1.7 -1.7 M6 6 l1.7 1.7 M4 6 l-1.7 1.7 M6 4 l1.7 -1.7 M5 3 l0 -1 M5 7 l0 1 M3 5 l-1 0 M7 5 l1 0"/>
+          </svg>
+        </div>
+        <div class="fw-item">
+          <svg viewBox="0 0 10 10">
+            <circle cx="5" cy="5" r="0.75"/>
+            <circle cx="4" cy="3" r="0.5"/>
+            <circle cx="7" cy="6" r="0.5"/>
+            <circle cx="4" cy="7" r="0.5"/>
+            <circle cx="3" cy="5" r="0.4"/>
+            <circle cx="7" cy="3" r="0.4"/>
+            <circle cx="6" cy="8" r="0.25"/>
+            <circle cx="2.5" cy="7" r="0.25"/>
+            <circle cx="2.5" cy="3.5" r="0.25"/>
+            <circle cx="5.5" cy="2" r="0.15"/>
+            <circle cx="5.5" cy="3.25" r="0.25"/>
+            <circle cx="8" cy="4.5" r="0.25"/>
+          </svg>
+        </div>
+        <div class="fw-item">
+          <svg viewBox="0 0 10 10">
+            <path d="M7.7 2.3 l-5.4 5.4 M2.5 2.5 c1 -1.5 4 -1.5 5 0 M7.5 7.5 c-1 1.5 -4 1.5 -5 0 M6.5 3.5 c-1 -1 -2 -1 -3 0 M3.5 6.5 c1 1 2 1 3 0"></path>
+          </svg>
+        </div>
+        <div class="fw-item">
+          <svg viewBox="0 0 10 10">
+            <path d="M7.7 3 l-2.5 0.25 M7.7 3.5 l-1.5 2.5 M6.7 4 l-3 1 M5.7 5 l-2 2 M4.7 3.3 l-0.75 0.07 M3.2 5.05 l-1 0.4 M3.3 7.4 l-0.5 0.5 M6 6.3 l-0.4 0.6"></path>
+          </svg>
+        </div>
+        <div id="color-circle-wrapper">
+          <div id="col-onclick" onclick="toggleColSel(true)"></div>
+          <div id="color-selector">
+            <div id="current-col" class="color-circle" onclick="toggleColSel(false,event)"></div>
+            <div id="color-box"></div>
+          </div>
+        </div>
+        <div id="fw-info">
+          <span class="fw-info-item">Strength <span id="strength">5</span></span>
+          <span class="fw-info-item">Angle <span id="ang">45</span></span>
+          <span class="fw-info-item">x <span id="x-coord">0</span></span>
+          <span class="fw-info-item">y <span id="y-coord">0</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="controls" class="flx-r">
+    <div class="flx-c jcc" id="left-box">
+      <div class="flx-r">
+        <div class="control-btn step-btn">
+          <svg viewBox="-1 -1 12 12">
+            <path d="M7.5 2 l-1 0.5 l0 5 l1 0.5 M5.5 3 l-4 2 l4 2"/>
+          </svg>
+        </div>
+        <div class="control-btn" id="play-btn" onclick="play()">
+          <svg viewBox="-1 -1 12 12">
+            <path d="M3 2 l5 3 l-5 3"/>
+          </svg>
+        </div>
+        <div class="control-btn" id="pause-btn" onclick="pause()">
+          <svg viewBox="-1 -1 12 12">
+            <rect x="2.5" y="2" width="2" height="6"/>
+            <rect x="5.5" y="2" width="2" height="6"/>
+          </svg>
+        </div>
+        <div class="control-btn step-btn">
+          <svg viewBox="-1 -1 12 12">
+            <path d="M2.5 2 l1 0.5 l0 5 l-1 0.5 M4.5 3 l4 2 l-4 2"/>
+          </svg>
+        </div>
+      </div>
+      <div id="time-out"></div>
+    </div>
+    <div id="slider-area" class="flx-r">
+      <div id="slider">
+        <svg></svg>
+        <div id="slider-runner">
+          <div id="slider-runner-bar"></div>
+          <div id="slider-runner-blob"></div>
+        </div>
+      </div>
+    </div>
+    <div id="duration-box" class="flx-r">
+      <div class="dur-item">
+        <span>Start</span>
+        <input class="dur-inp" value="0.0">
+      </div>
+      <div class="dur-item">
+        <span>End</span>
+        <input class="dur-inp" value="15.0">
+      </div>
+    </div>
+  </div>
+</body>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
